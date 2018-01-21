@@ -136,12 +136,13 @@ class Site extends NgRestModel
     	foreach ($this->getRemote()['packages'] as $pkg) {
     		$name = $pkg['package']['name'];
     		$remote = $this->getPackageVersion($name);
+    		$version = $remote['version'] ? $remote['version'] : null;
     		$pkgs[$name] = [
     			'name' => $name,
     			'installed' => $pkg['package']['version'],
-    			'latest' => $remote['version'],
-    			'released' => $remote['time'],
-    			'versionize' => $this->versionize($pkg['package']['version'], $remote['version']),
+    			'latest' => $version,
+    			'released' => $remote['time'] ? $remote['time'] : null,
+    			'versionize' => $this->versionize($pkg['package']['version'], $version),
     		];
     	}
     	
@@ -243,7 +244,11 @@ class Site extends NgRestModel
     		$json = Json::decode($curl->response);
     		$curl->close();
     		 
-    		foreach ($json['package']['versions'] as $version =>  $package) {
+    		if (!isset($json['package']['versions'])) {
+    			return false;
+    		}
+    		
+    		foreach ($json['package']['versions'] as $version => $package) {
     			if ($version == 'dev-master' || !is_numeric(substr($version, 0, 1))) {
     				continue;
     			}
