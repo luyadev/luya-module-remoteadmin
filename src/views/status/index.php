@@ -111,7 +111,7 @@ zaa.bootstrap.register('SitesStatusController', function($scope, $http, $q) {
 	    	            <td ng-if="!site.status.error && !site.status.loading">{{site.status.time}}</td>
 	    	            <td ng-if="!site.status.error && !site.status.loading" style="{{site.status.debugstyle}}">{{site.status.debug}}</td>
 	    	            <td ng-if="!site.status.error && !site.status.loading" style="{{site.status.exceptionsstyle}}">{{site.status.exceptions}}</td>
-	    	            <td ng-if="!site.status.error && !site.status.loading">{{site.status.packages_update_timestamp * 1000 | date:"short"}}</td>
+	    	            <td ng-if="!site.status.error && !site.status.loading"><span ng-show="site.status.packages_update_timestamp">{{site.status.packages_update_timestamp * 1000 | date:"short"}}</span></td>
 	    	            <td ng-if="!site.status.error && !site.status.loading">{{site.status.env}}</td>
 	    	            <td ng-if="!site.status.error && !site.status.loading" style="{{site.status.luyastyle}}">{{site.status.luya}}</td>
 	    	            <td ng-if="!site.status.error && !site.status.loading">{{site.status.yii}}</td>
@@ -122,7 +122,7 @@ zaa.bootstrap.register('SitesStatusController', function($scope, $http, $q) {
 							</div>
 	                    </td>
 	                    <td>
-	                    	<button class="btn btn-sm" type="button" ng-click="loadModal(site)">Packages</button>
+	                    	<button ng-show="site.status.packages_update_timestamp" class="btn btn-sm" type="button" ng-click="loadModal(site)">Packages</button>
 	                    	<a ng-href="{{site.safeUrl}}/admin" target="_blank"><button type="button" class="btn btn-sm"><i class="material-icons">exit_to_app</i></button></a>
 	                    </td>
 	    	        </tr>
