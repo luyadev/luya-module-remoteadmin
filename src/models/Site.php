@@ -85,7 +85,7 @@ class Site extends NgRestModel
     public function ngRestAttributeTypes()
     {
         return [
-            'token' => 'html',
+            'token' => ['text', 'encoding' => false],
             'url' => 'text',
             'auth_is_enabled' => 'toggleStatus',
             'auth_user' => 'text',
