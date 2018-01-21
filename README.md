@@ -35,7 +35,7 @@ composer require luyadev/luya-module-remoteadmin:~1.0.0
 
 ## Configuration
 
-```
+```php
 'remoteadmin' => [
     'class' => 'luya\remoteadmin\Module'
 ],

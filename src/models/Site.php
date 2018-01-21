@@ -127,7 +127,25 @@ class Site extends NgRestModel
     
     public function extraFields()
     {
-        return ['remote', 'safeUrl'];
+        return ['remote', 'safeUrl', 'packages'];
+    }
+    
+    public function getPackages()
+    {
+    	$pkgs = [];
+    	foreach ($this->getRemote()['packages'] as $pkg) {
+    		$name = $pkg['package']['name'];
+    		$remote = $this->getPackageVersion($name);
+    		$pkgs[$name] = [
+    			'name' => $name,
+    			'installed' => $pkg['package']['version'],
+    			'latest' => $remote['version'],
+    			'released' => $remote['time'],
+    			'versionize' => $this->versionize($pkg['package']['version'], $remote['version']),
+    		];
+    	}
+    	
+    	return $pkgs;
     }
     
     /**
@@ -143,9 +161,7 @@ class Site extends NgRestModel
                 $curl->setBasicAuthentication($this->auth_user, $this->auth_pass);
             }
             $curl->get($this->getEnsuredUrl(). 'admin/api-admin-remote?token=' . sha1($this->token));
-
             $data = $curl->isSuccess() ? Json::decode($curl->response) : false;
-            
             $curl->close();
             
             if ($data) {
@@ -154,7 +170,7 @@ class Site extends NgRestModel
                 $data['app_debug'] = $this->textify($data['app_debug']);
                 $data['app_transfer_exceptions_style'] = $this->colorize($data['app_transfer_exceptions']);
                 $data['app_transfer_exceptions'] = $this->textify($data['app_transfer_exceptions']);
-                $data['luya_version_style'] = $this->versionize($data['luya_version']);
+                $data['luya_version_style'] = $this->versionize($data['luya_version'], $this->getLuyaCore()['version']);
                 $data['error'] = false;
             } else {
                 $data['error'] = true;
@@ -192,45 +208,58 @@ class Site extends NgRestModel
     }
     
     /**
-     *
-     * @param unknown $version
+     * Compare a the current package version with the latest version.
+     * 
+     * @param string $version
+     * @param string $latestVersion
      * @return string
      */
-    public function versionize($version)
+    public function versionize($version, $latestVersion)
     {
-        if ($version == $this->getCurrentVersion()['version']) {
+        if ($version == $latestVersion) {
             return 'background-color:#dff0d8';
         } elseif (StringHelper::contains('dev', $version)) {
             return 'background-color:#fcf8e3';
         }
         
+        if (version_compare($version, $latestVersion) >= 0) {
+        	return 'background-color:#dff0d8';
+        }
+        
         return 'background-color:#f2dede';
     }
     
-    public function requestLuyaVersion()
+    /**
+     * Get packge version informations for a given package.
+     * @param unknown $package
+     * @return mixed|boolean
+     * @since 1.0.1
+     */
+    public function getPackageVersion($package)
     {
-        $curl = new Curl();
-        $curl->get('https://packagist.org/packages/luyadev/luya-core.json');
-        $json = Json::decode($curl->response);
-        $curl->close();
-        
-        foreach ($json['package']['versions'] as $version =>  $package) {
-            if ($version == 'dev-master' || !is_numeric(substr($version, 0, 1))) {
-                continue;
-            }
-            
-            return $package;
-        }
+    	return $this->getOrSetHasCache([__CLASS__, 'packagist', 'package', $package], function() use ($package) {
+    		$curl = new Curl();
+    		$curl->get('https://packagist.org/packages/'.$package.'.json');
+    		$json = Json::decode($curl->response);
+    		$curl->close();
+    		 
+    		foreach ($json['package']['versions'] as $version =>  $package) {
+    			if ($version == 'dev-master' || !is_numeric(substr($version, 0, 1))) {
+    				continue;
+    			}
+    			 
+    			return $package;
+    		}
+    	}, 60*60);
     }
     
     /**
      *
      * @return unknown|boolean
+     * @since 1.0.1
      */
-    public function getCurrentVersion()
+    public function getLuyaCore()
     {
-        return $this->getOrSetHasCache([__CLASS__, 'luyaVersion'], function () {
-            return $this->requestLuyaVersion();
-        }, (60*60));
+    	return $this->getPackageVersion('luyadev/luya-core');
     }
 }

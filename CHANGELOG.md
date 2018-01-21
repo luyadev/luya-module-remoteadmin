@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.0.1 (in progress)
 
++ [#2](https://github.com/luyadev/luya-module-remoteadmin/issues/2) Display package informations for a given site in a modal.
+
 ## 1.0.0 (12. December 2017)
 
 + First stable release
