@@ -73,7 +73,7 @@ zaa.bootstrap.register('SitesStatusController', function($scope, $http, $q) {
 		    		    <th>Installed</th>
 		    		    <th>Latest</th>
 		    		    <th>Released</th>
-		    		    <th>Packgist</th>
+		    		    <th>Packagist</th>
 		    		</tr>
 	    		</thead>
             	<tr ng-repeat="package in modalData.packages">
@@ -81,7 +81,7 @@ zaa.bootstrap.register('SitesStatusController', function($scope, $http, $q) {
             		<td style="{{package.versionize}}">{{package.installed}}</td>
             		<td>{{ package.latest }}</td>
             		<td>{{ package.released | date: "medium" }}</td>
-            		<td><a ng-href="https://packagist.org/packages/{{package.name}}" target="_blank" class="btn">Packagist</a></td>
+            		<td><a ng-href="https://packagist.org/packages/{{package.name}}" target="_blank" class="btn">Infos</a></td>
             	</tr>
             </table>
         </div>
