@@ -132,7 +132,7 @@ zaa.bootstrap.register('SitesStatusController', function($scope, $http, $q) {
     		<p><small><?= Module::t('status_index_time_info'); ?></small></p>
     	</div>
     </div>
-    <div class="card mt-3" ng-if="hasError">
+    <div class="card mt-3 text-white bg-warning" ng-if="hasError">
     	<div class="card-content">
     		<p><?= Module::t('stauts_index_error_text'); ?></p>
     		<ul>

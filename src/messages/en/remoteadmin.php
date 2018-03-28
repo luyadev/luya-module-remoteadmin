@@ -21,4 +21,5 @@ return [
     'status_index_column_time' => 'Time',
     'status_index_column_transferexception' => 'Transfer Exceptions',
     'status_index_column_onlineadmin' => 'Admins Online',
+    'stauts_index_error_text' => 'If the request to a remote page returns an error, the following issues could have caused your request:',
 ];

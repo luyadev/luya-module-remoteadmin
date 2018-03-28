@@ -21,4 +21,5 @@ return [
     'status_index_column_time' => 'Zeit',
     'status_index_column_transferexception' => 'Fehler übertragen',
     'status_index_column_onlineadmin' => 'Admins Online',
+    'stauts_index_error_text' => 'Wenn die Abfrage zu einer Remote Seite einen Fehler gab könnte folgenden Probleme aufgetreten sein:',
 ];

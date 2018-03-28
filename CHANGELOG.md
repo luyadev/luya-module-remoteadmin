@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.0.2 (in progress)
 
++ Add missing translation.
++ Change background color for error info.
+
 ## 1.0.1 (21. January 2018)
 
 + [#2](https://github.com/luyadev/luya-module-remoteadmin/issues/2) Display package informations for a given site in a modal.

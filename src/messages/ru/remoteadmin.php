@@ -21,4 +21,5 @@ return [
     'status_index_column_time' => 'Время',
     'status_index_column_transferexception' => 'Ошибки переноса',
     'status_index_column_onlineadmin' => 'Админы онлайн',
+    'stauts_index_error_text' => 'If the request to a remote page returns an error, the following issues could have caused your request:',
 ];
