@@ -54,6 +54,6 @@ add a remote token to the application you want to control:
 'remoteToken' => 'ADD_YOUR_SECRET_STRONG_TOKEN_HERE',
 ```
 
-> Use http://passwordsgenerator.net to generate a strong token
+> Use [Password Generator](http://passwordsgenerator.net/?length=64&symbols=0&numbers=1&lowercase=1&uppercase=1&similar=1&ambiguous=0&client=1&autoselect=0) to generate a strong token
 
 Now you are able to add this instance to your remote admin with the above added remoteToken.
