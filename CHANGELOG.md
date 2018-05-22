@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md). In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.0.3 (in progress)
+## 1.0.3 (22. May 2018)
+
++ [#3](https://github.com/luyadev/luya-module-remoteadmin/issues/3) Enable strict di in order to be compatible with admin version 1.2
++ Cleanup cache for a given site on update.
 
 ## 1.0.2 (12. April 2018)
 

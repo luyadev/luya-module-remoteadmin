@@ -3,7 +3,7 @@ use luya\remoteadmin\Module;
 
 ?>
 <script>
-zaa.bootstrap.register('SitesStatusController', function($scope, $http, $q) {
+zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', function($scope, $http, $q) {
 
     $scope.searchQuery = '';
     
@@ -61,7 +61,7 @@ zaa.bootstrap.register('SitesStatusController', function($scope, $http, $q) {
     };
 
     $scope.loadSites();
-});
+}]);
 </script>
 <div  ng-controller="SitesStatusController">
 	<modal is-modal-hidden="modalState" modal-title="Package details: {{modalData.safeUrl}}">

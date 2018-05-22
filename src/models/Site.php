@@ -38,6 +38,18 @@ class Site extends NgRestModel
     /**
      * @inheritdoc
      */
+    public function init()
+    {
+        parent::init();
+        
+        $this->on(self::EVENT_AFTER_UPDATE, function() {
+            $this->deleteHasCache($this->getCacheKey());
+        });
+    }
+    
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -125,11 +137,19 @@ class Site extends NgRestModel
         return rtrim($this->url, '/');
     }
     
+    /**
+     * @inheritdoc
+     */
     public function extraFields()
     {
         return ['remote', 'safeUrl', 'packages'];
     }
     
+    /**
+     * Return all packages
+     * 
+     * @return array
+     */
     public function getPackages()
     {
     	$pkgs = [];
@@ -150,13 +170,24 @@ class Site extends NgRestModel
     }
     
     /**
+     * Generate cache key array.
+     * 
+     * @return array
+     * @since 1.0.3
+     */
+    public function getCacheKey()
+    {
+        return [__CLASS__, $this->getEnsuredUrl()];
+    }
+    
+    /**
      * Get the remote data.
      *
      * @return array|boolean
      */
     public function getRemote()
     {
-        return $this->getOrSetHasCache([__CLASS__, $this->getEnsuredUrl()], function () {
+        return $this->getOrSetHasCache($this->getCacheKey(), function () {
             $curl = new Curl();
             if ($this->auth_is_enabled) {
                 $curl->setBasicAuthentication($this->auth_user, $this->auth_pass);
@@ -184,7 +215,7 @@ class Site extends NgRestModel
     /**
      * Boolean expression to On/Off message.
      *
-     * @param unknown $value
+     * @param string $value
      * @return string
      */
     public function textify($value)
@@ -194,7 +225,7 @@ class Site extends NgRestModel
     
     /**
      *
-     * @param unknown $value
+     * @param string $value
      * @param string $invert
      * @return string
      */
@@ -232,7 +263,7 @@ class Site extends NgRestModel
     
     /**
      * Get packge version informations for a given package.
-     * @param unknown $package
+     * @param string $package
      * @return mixed|boolean
      * @since 1.0.1
      */
@@ -260,7 +291,7 @@ class Site extends NgRestModel
     
     /**
      *
-     * @return unknown|boolean
+     * @return string
      * @since 1.0.1
      */
     public function getLuyaCore()
