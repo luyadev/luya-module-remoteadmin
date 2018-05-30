@@ -24,6 +24,8 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', functi
 
 	$scope.packageInfos = {};
 
+    $scope.orderField = 'safeUrl';
+    
     $scope.loadSites = function() {
         $http.get('admin/api-remote-site?expand=safeUrl').then(function(response) {
             $scope.sites = response.data;
@@ -81,7 +83,7 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', functi
             		<td style="{{package.versionize}}">{{package.installed}}</td>
             		<td>{{ package.latest }}</td>
             		<td>{{ package.released | date: "medium" }}</td>
-            		<td><a ng-href="https://packagist.org/packages/{{package.name}}" target="_blank" class="btn">Infos</a></td>
+            		<td><a ng-show="package.released" ng-href="https://packagist.org/packages/{{package.name}}" target="_blank" class="btn">Infos</a></td>
             	</tr>
             </table>
         </div>
@@ -95,18 +97,18 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', functi
 	            <table class="table table-striped">
 	    			<thead>
 		    			<tr>
-		    			    <th><?= Module::t('model_site_url'); ?></th>
-		    			    <th><?= Module::t('status_index_column_time'); ?> *</th>
-		    			    <th>YII_DEBUG</th>
-		    			    <th><?= Module::t('status_index_column_transferexception'); ?></th>
-		    			    <th>Composer Timestamp</th>
+		    			    <th ng-click="orderField='safeUrl'"><?= Module::t('model_site_url'); ?></th>
+		    			    <th ng-click="orderField='site.status.time'"><?= Module::t('status_index_column_time'); ?> *</th>
+		    			    <th ng-click="orderField='site.status.debug'">YII_DEBUG</th>
+		    			    <th ng-click="orderField='site.status.exceptions'"><?= Module::t('status_index_column_transferexception'); ?></th>
+		    			    <th ng-click="orderField='site.status.packages_update_timestamp'">Composer Timestamp</th>
 		    			    <th>YII_ENV</th>
 		    			    <th>LUYA Version</th>
 		    			    <th>Yii Version</th>
 		    			    <th></th>
 		    			</tr>
 	    			</thead>
-	    	        <tr ng-repeat="site in sites | filter:searchQuery">
+	    	        <tr ng-repeat="site in sites | filter:searchQuery | orderBy: orderField">
 	    	            <td style="text-align:left;"><a ng-href="{{site.safeUrl}}" target="_blank">{{site.safeUrl}}</a></td>
 	    	            <td ng-if="!site.status.error && !site.status.loading">{{site.status.time}}</td>
 	    	            <td ng-if="!site.status.error && !site.status.loading" style="{{site.status.debugstyle}}">{{site.status.debug}}</td>

@@ -1,12 +1,12 @@
 <?php
 namespace luya\remoteadmin;
 
-use Yii;
 use luya\base\CoreModuleInterface;
 use luya\admin\components\AdminMenuBuilder;
 
 /**
- * Remote Module.
+ * Remote Admin Module.
+ * 
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -14,6 +14,11 @@ final class Module extends \luya\admin\base\Module implements CoreModuleInterfac
 {
     public $apis = [
         'api-remote-site' => 'luya\remoteadmin\apis\SiteController',
+        'api-remote-messagelog' => 'luya\remoteadmin\apis\MessageLogController',
+        'api-remote-messagetemplate' => 'luya\remoteadmin\apis\MessageTemplateController',
+        'api-remote-billingproduct' => 'luya\remoteadmin\apis\BillingProductController',
+        'api-remote-sitebillingproduct' => 'luya\remoteadmin\apis\SiteBillingProductController',
+        
     ];
     
     public function getMenu()
@@ -21,7 +26,15 @@ final class Module extends \luya\admin\base\Module implements CoreModuleInterfac
         return (new AdminMenuBuilder($this))->node('Remote', 'settings_remote')
             ->group('Daten')
                 ->itemRoute('Status', 'remoteadmin/status/index', 'update')
-                ->itemApi('Pages', 'remoteadmin/site/index', 'cloud', 'api-remote-site');
+                ->itemApi('Pages', 'remoteadmin/site/index', 'cloud', 'api-remote-site')
+            ->group('Message')
+                ->itemApi('Templates', 'remoteadmin/message-template/index', 'label', 'api-remote-messagetemplate')
+                ->itemApi('History', 'remoteadmin/message-log/index', 'label', 'api-remote-messagelog')
+            ->group('Billing')
+                ->itemApi('Products', 'remoteadmin/billing-product/index', 'label', 'api-remote-billingproduct')
+                ->itemApi('Site Billing Product', 'remoteadmin/site-billing-product/index', 'label', 'api-remote-sitebillingproduct', ['hiddenInMenu' => true]);
+                
+                
     }
     public static function onLoad()
     {

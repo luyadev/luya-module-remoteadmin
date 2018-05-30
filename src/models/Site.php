@@ -9,16 +9,23 @@ use luya\traits\CacheableTrait;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\remoteadmin\Module;
 use luya\helpers\StringHelper;
+use luya\admin\traits\SoftDeleteTrait;
+use luya\admin\ngrest\plugins\CheckboxRelationActiveQuery;
 
 /**
  * This is the model class for table "remote_site".
  *
- * @property integer $id
+ * @property int $id
  * @property string $token
  * @property string $url
- * @property integer $auth_is_enabled
+ * @property int $auth_is_enabled
  * @property string $auth_user
  * @property string $auth_pass
+ * @property string $recipient
+ * @property int $last_message_timestamp
+ * @property int $is_deleted
+ * @property int $billing_start_timestamp
+ * @property int $status
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -26,6 +33,9 @@ use luya\helpers\StringHelper;
 class Site extends NgRestModel
 {
     use CacheableTrait;
+    use SoftDeleteTrait;
+    
+    public $adminBillingProducts = [];
 
     /**
      * @inheritdoc
@@ -54,9 +64,10 @@ class Site extends NgRestModel
     {
         return [
             [['token', 'url'], 'required'],
-            [['url'], 'url'],
-            [['auth_is_enabled'], 'integer'],
+            [['auth_is_enabled', 'last_message_timestamp', 'is_deleted', 'billing_start_timestamp', 'status'], 'integer'],
             [['token', 'url', 'auth_user', 'auth_pass'], 'string', 'max' => 120],
+            [['recipient'], 'string', 'max' => 255],
+            [['adminBillingProducts'], 'safe'],
         ];
     }
     
@@ -72,7 +83,25 @@ class Site extends NgRestModel
             'auth_is_enabled' => Module::t('model_site_auth_is_enabled'),
             'auth_user' => Module::t('model_site_auth_user'),
             'auth_pass' => Module::t('model_site_auth_pass'),
+            'recipient' => 'E-Mail Recipient',
+            'last_message_timestamp' => 'Last Message Timestamp',
+            'is_deleted' => 'Is Deleted',
+            'billing_start_timestamp' => 'Billing Start Timestamp',
+            'status' => 'Status',
         ];
+    }
+    
+    public function attributeHints()
+    {
+        return [
+            'recipient' => 'A comma seperate list of email adresse allows you send message to multiple addresses.',
+            'billing_start_timestamp' => 'If you like to use the billing overview you may want to set timestamp when the billing cycle starts.',
+        ];
+    }
+    
+    public function getBillingProducts()
+    {
+        return $this->hasMany(BillingProduct::class, ['id' => 'product_id'])->viaTable(SiteBillingProduct::tableName(), ['site_id' => 'id']);
     }
     
     /**
@@ -99,9 +128,22 @@ class Site extends NgRestModel
         return [
             'token' => ['text', 'encoding' => false],
             'url' => 'text',
+            'recipient' => 'text',
+            'billing_start_timestamp' => 'date',
             'auth_is_enabled' => 'toggleStatus',
-            'auth_user' => 'text',
-            'auth_pass' => 'password',
+            'auth_user' => ['text', 'condition' => '{auth_is_enabled}==1'],
+            'auth_pass' => ['password', 'condition' => '{auth_is_enabled}==1'],
+        ];
+    }
+
+    public function ngRestExtraAttributeTypes()
+    {
+        return [
+            'adminBillingProducts' => [
+                'class' => CheckboxRelationActiveQuery::class,
+                'query' => $this->getBillingProducts(),
+                'labelField' => ['name'],
+            ]
         ];
     }
     
@@ -111,8 +153,8 @@ class Site extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['url', 'token']],
-            [['create', 'update'], ['url', 'token', 'auth_is_enabled', 'auth_user', 'auth_pass']],
+            ['list', ['url', 'token', 'recipient']],
+            [['create', 'update'], ['url', 'token', 'recipient', 'billing_start_timestamp', 'auth_is_enabled', 'auth_user', 'auth_pass', 'adminBillingProducts']],
             ['delete', true],
         ];
     }
