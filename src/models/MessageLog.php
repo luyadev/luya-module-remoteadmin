@@ -4,6 +4,8 @@ namespace luya\remoteadmin\models;
 
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use luya\admin\ngrest\plugins\Html;
+use luya\remoteadmin\Module;
 
 /**
  * Message Log.
@@ -40,11 +42,11 @@ class MessageLog extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'site_id' => Yii::t('app', 'Site ID'),
-            'timestamp' => Yii::t('app', 'Timestamp'),
-            'recipients' => Yii::t('app', 'Recipients'),
-            'text' => Yii::t('app', 'Text'),
+            'id' => Module::t('model_id'),
+            'site_id' => Module::t('model_message_log_site_id'),
+            'timestamp' => Module::t('model_message_log_timestamp'),
+            'recipients' => Module::t('model_message_log_recipients'),
+            'text' => Module::t('model_message_log_text'),
         ];
     }
 
@@ -76,9 +78,9 @@ class MessageLog extends NgRestModel
     {
         return [
             'site_id' => 'number',
-            'timestamp' => 'number',
+            'timestamp' => 'datetime',
             'recipients' => 'text',
-            'text' => 'textarea',
+            'text' => ['class' => Html::class, 'nl2br' => false],
         ];
     }
 
@@ -88,8 +90,7 @@ class MessageLog extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['site_id', 'timestamp', 'recipients', 'text']],
-            [['create', 'update'], ['site_id', 'timestamp', 'recipients', 'text']],
+            [['list'], ['site_id', 'timestamp', 'recipients', 'text']],
             ['delete', false],
         ];
     }

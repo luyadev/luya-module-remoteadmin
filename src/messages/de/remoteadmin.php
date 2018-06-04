@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model_site_id' => 'ID',
+    'model_id' => 'ID',
     'model_site_token' => 'Remote-Token',
     'model_site_url' => 'Adresse',
     'model_site_auth_is_enabled' => 'Authentifizierung',

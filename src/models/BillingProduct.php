@@ -5,6 +5,7 @@ namespace luya\remoteadmin\models;
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\helpers\ArrayHelper;
+use luya\remoteadmin\Module;
 
 /**
  * Billing Product.
@@ -40,10 +41,10 @@ class BillingProduct extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'month_cycle' => Yii::t('app', 'Month Cycle'),
-            'price' => Yii::t('app', 'Price'),
+            'id' => Module::t('model_id'),
+            'name' => Module::t('model_billing_product_name'),
+            'month_cycle' => Module::t('model_billing_product_month_cycle'),
+            'price' => Module::t('model_billing_product_price'),
         ];
     }
 

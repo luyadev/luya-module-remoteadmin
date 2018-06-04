@@ -26,6 +26,7 @@ use luya\admin\ngrest\plugins\CheckboxRelationActiveQuery;
  * @property int $is_deleted
  * @property int $billing_start_timestamp
  * @property int $status
+ * @property int $auto_update_message
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -64,7 +65,7 @@ class Site extends NgRestModel
     {
         return [
             [['token', 'url'], 'required'],
-            [['auth_is_enabled', 'last_message_timestamp', 'is_deleted', 'billing_start_timestamp', 'status'], 'integer'],
+            [['auth_is_enabled', 'last_message_timestamp', 'is_deleted', 'billing_start_timestamp', 'status', 'auto_update_message'], 'integer'],
             [['token', 'url', 'auth_user', 'auth_pass'], 'string', 'max' => 120],
             [['recipient'], 'string', 'max' => 255],
             [['adminBillingProducts'], 'safe'],
@@ -77,31 +78,44 @@ class Site extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Module::t('model_site_id'),
+            'id' => Module::t('model_id'),
             'token' => Module::t('model_site_token'),
             'url' => Module::t('model_site_url'),
             'auth_is_enabled' => Module::t('model_site_auth_is_enabled'),
             'auth_user' => Module::t('model_site_auth_user'),
             'auth_pass' => Module::t('model_site_auth_pass'),
-            'recipient' => 'E-Mail Recipient',
-            'last_message_timestamp' => 'Last Message Timestamp',
-            'is_deleted' => 'Is Deleted',
-            'billing_start_timestamp' => 'Billing Start Timestamp',
-            'status' => 'Status',
+            'recipient' => Module::t('model_site_recipient'),
+            'last_message_timestamp' => Module::t('model_site_last_message_timestamp'),
+            'is_deleted' => Module::t('model_site_is_deleted'),
+            'billing_start_timestamp' => Module::t('model_site_billing_start_timestamp'),
+            'status' => Module::t('model_site_status'),
+            'adminBillingProducts' => Module::t('model_site_adminBillingProducts'),
+            'auto_update_message' => Module::t('model_site_auto_update_message'),
         ];
+    }
+    
+    public function getRecipients()
+    {
+        $recipients = str_replace([",", " "], ";", $this->recipient);
+        
+        return StringHelper::explode($recipients, ';', true, true);
     }
     
     public function attributeHints()
     {
         return [
-            'recipient' => 'A comma seperate list of email adresse allows you send message to multiple addresses.',
-            'billing_start_timestamp' => 'If you like to use the billing overview you may want to set timestamp when the billing cycle starts.',
+            'recipient' => Module::t('model_site_recipient_hint'),
+            'billing_start_timestamp' => Module::t('model_site_billing_start_timestamp_hint'),
+            'auto_update_message' => Module::t('model_site_auto_update_message_hint'),
         ];
     }
     
+    /**
+     * @return BillingProduct
+     */
     public function getBillingProducts()
     {
-        return $this->hasMany(BillingProduct::class, ['id' => 'product_id'])->viaTable(SiteBillingProduct::tableName(), ['site_id' => 'id']);
+        return $this->hasMany(BillingProduct::class, ['id' => 'billing_product_id'])->viaTable(SiteBillingProduct::tableName(), ['site_id' => 'id']);
     }
     
     /**
@@ -128,11 +142,13 @@ class Site extends NgRestModel
         return [
             'token' => ['text', 'encoding' => false],
             'url' => 'text',
+            'status' => ['selectArray', 'data' => [1 => Module::t('model_site_status_1'), 2 => Module::t('model_site_status_2'), 3 => Module::t('model_site_status_3'), 4 => Module::t('model_site_status_4')]],
             'recipient' => 'text',
             'billing_start_timestamp' => 'date',
             'auth_is_enabled' => 'toggleStatus',
             'auth_user' => ['text', 'condition' => '{auth_is_enabled}==1'],
             'auth_pass' => ['password', 'condition' => '{auth_is_enabled}==1'],
+            'auto_update_message' => 'toggleStatus',
         ];
     }
 
@@ -153,8 +169,8 @@ class Site extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['url', 'token', 'recipient']],
-            [['create', 'update'], ['url', 'token', 'recipient', 'billing_start_timestamp', 'auth_is_enabled', 'auth_user', 'auth_pass', 'adminBillingProducts']],
+            ['list', ['url', 'token', 'status', 'recipient']],
+            [['create', 'update'], ['url', 'token', 'status', 'recipient', 'billing_start_timestamp', 'auth_is_enabled', 'auth_user', 'auth_pass', 'adminBillingProducts', 'auto_update_message']],
             ['delete', true],
         ];
     }
@@ -184,7 +200,16 @@ class Site extends NgRestModel
      */
     public function extraFields()
     {
-        return ['remote', 'safeUrl', 'packages'];
+        return ['remote', 'safeUrl', 'packages', 'messageLogs'];
+    }
+    
+    /**
+     * 
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMessageLogs()
+    {
+        return $this->hasMany(MessageLog::class, ['site_id' => 'id']);
     }
     
     /**
@@ -251,7 +276,7 @@ class Site extends NgRestModel
             }
             
             return $data;
-        }, (60*15));
+        }, (60*60*12)); // cache for 12 hours
     }
     
     /**

@@ -4,6 +4,7 @@ namespace luya\remoteadmin\models;
 
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use luya\remoteadmin\Module;
 
 /**
  * Message Template.
@@ -11,6 +12,8 @@ use luya\admin\ngrest\base\NgRestModel;
  * File has been created with `crud/create` command. 
  *
  * @property integer $id
+ * @property boolean $is_default
+ * @property text $title
  * @property text $text
  */
 class MessageTemplate extends NgRestModel
@@ -37,8 +40,17 @@ class MessageTemplate extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'text' => Yii::t('app', 'Text'),
+            'id' => Module::t('model_id'),
+            'title' => Module::t('model_message_template_title'),
+            'text' => Module::t('model_message_template_text'),
+            'is_default' => Module::t('model_message_template_is_default'),
+        ];
+    }
+    
+    public function attributeHints()
+    {
+        return [
+            'text' => Module::t('model_message_template_text_hint'),  
         ];
     }
 
@@ -48,8 +60,9 @@ class MessageTemplate extends NgRestModel
     public function rules()
     {
         return [
-            [['text'], 'required'],
-            [['text'], 'string'],
+            [['text', 'title'], 'required'],
+            [['text', 'title'], 'string'],
+            [['is_default'], 'integer']
         ];
     }
 
@@ -67,7 +80,9 @@ class MessageTemplate extends NgRestModel
     public function ngRestAttributeTypes()
     {
         return [
+            'title' => 'text',
             'text' => 'textarea',
+            'is_default' => 'toggleStatus',
         ];
     }
 
@@ -77,8 +92,7 @@ class MessageTemplate extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['text']],
-            [['create', 'update'], ['text']],
+            [['list', 'create', 'update'], ['title', 'text', 'is_default']],
             ['delete', false],
         ];
     }

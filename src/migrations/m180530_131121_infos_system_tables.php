@@ -22,7 +22,9 @@ class m180530_131121_infos_system_tables extends Migration
         
         $this->createTable('remote_message_template', [
             'id' => $this->primaryKey(),
+            'title' => $this->text()->notNull(),
             'text' => $this->text()->notNull(),
+            'is_default' => $this->boolean()->defaultValue(false),
         ]);
         
         $this->createTable('remote_billing_product', [
@@ -44,6 +46,7 @@ class m180530_131121_infos_system_tables extends Migration
         $this->addColumn('remote_site', 'is_deleted', $this->boolean()->defaultValue(false));
         $this->addColumn('remote_site', 'billing_start_timestamp', $this->integer());
         $this->addColumn('remote_site', 'status', $this->integer());
+        $this->addColumn('remote_site', 'auto_update_message', $this->boolean()->defaultValue(false));
     }
 
     /**
@@ -61,5 +64,6 @@ class m180530_131121_infos_system_tables extends Migration
         $this->dropColumn('remote_site', 'is_deleted');
         $this->dropColumn('remote_site', 'billing_start_timestamp');
         $this->dropColumn('remote_site', 'status');
+        $this->dropColumn('remote_site', 'auto_update_message');
     }
 }
