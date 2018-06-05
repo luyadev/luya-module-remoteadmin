@@ -1,6 +1,9 @@
 <?php
 
 return [
+    
+// 1.0.0
+
     'model_id' => 'ID',
     'model_site_token' => 'Token remoto',
     'model_site_url' => 'URL',
@@ -22,4 +25,49 @@ return [
     'status_index_column_transferexception' => 'Eccezioni di trasferimento',
     'status_index_column_onlineadmin' => 'Amministratori online',
     'stauts_index_error_text' => 'If the request to a remote page returns an error, the following issues could have caused your request:',
+
+// 1.1.0
+
+    'message_defaulttext' => 'Hello\n\nWe made a technical update to your website {{domain}} on {{timestamp}}. Should you experience any problems in spite of our tests, please let us know.\n\nBest regards',
+    'message_defaulttext_title' => 'System template',
+    'message_text_label' => 'Email Message',
+    'message_sent_success' => 'The message has been sent to all recipients successfully',
+    'message_modal_title' => 'Send message to {{messageModalData.safeUrl}}',
+    'message_modal_recipients' => 'Recipient(s): {{ messageModalData.recipient }}',
+    'message_modal_submit_label' => 'Send message',
+    'message_modal_history_recipients' => 'To: {{log.recipients}}',
+    'package_modal_title' => 'Package details: {{packageModalData.safeUrl}}',
+    'package_modal_column_package' => 'Package',
+    'package_modal_column_installed' => 'Installed version',
+    'package_modal_column_latest' => 'Latest version',
+    'package_modal_column_released_time' => 'Released at',
+    'package_modal_column_packagist_button' => 'Packagist infos',
+    'composer_vendor_timestamp' => 'Composer vendor timestamp',
+    'model_billing_product_name' => 'Name',
+    'model_billing_product_month_cycle' => 'Month cycle',
+    'model_billing_product_price' => 'Price',
+    'model_message_log_site_id' => 'Site',
+    'model_message_log_timestamp' => 'Timestamp',
+    'model_message_log_recipients' => 'Recipients',
+    'model_message_log_text' => 'Message text',
+    'model_message_template_title' => 'Name',
+    'model_message_template_text' => 'Message text',
+    'model_message_template_is_default' => 'Default message template',
+    'model_message_template_text_hint' => 'The email text which will be sent to the user, Markdown is enabled by default. You can use {{timestamp}} and {{domain}} variables to customize the message.',
+    'model_site_recipient' => 'Message recipients',
+    'model_site_last_message_timestamp' => 'Last message timestamp',
+    'model_site_is_deleted' => 'Is deleted',
+    'model_site_billing_start_timestamp' => 'Billing period start',
+    'model_site_status' => 'Status',
+    'model_site_adminBillingProducts' => 'Product subscriptions',
+    'model_site_auto_update_message' => 'Auto send messages',
+    'model_site_recipient_hint' => 'A comma-separated list of email addresses lets you send the message to multiple recipients.',
+    'model_site_billing_start_timestamp_hint' => 'If you would like to use the billing overview, you should set the timestamp when the billing cycle starts.',
+    'model_site_auto_update_message_hint' => 'If enabled and the cronjob for auto message is setup, the remote admin will send the default or customized message to the configured list of recipients when the website\'s composer timestamp has changed.',
+    'model_site_status_1' => 'Production',
+    'model_site_status_2' => 'Development',
+    'model_site_status_3' => 'Pre-production',
+    'model_site_status_4' => 'End-of-life',
+    'model_site_billing_product_billing_product_id' => 'Product',
+    'model_site_billing_product_site_id' => 'Site',
 ];

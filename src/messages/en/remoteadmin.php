@@ -3,6 +3,7 @@
 return [
 
 // 1.0.0
+
     'model_id' => 'ID',
     'model_site_token' => 'Remote Token',
     'model_site_url' => 'URL',
