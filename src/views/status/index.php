@@ -219,7 +219,7 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
     </div>
     <div class="card mt-3 text-white bg-danger" ng-if="hasError">
     	<div class="card-body p-3">
-    		<p><?= Module::t('stauts_index_error_text'); ?></p>
+    		<p><?= Module::t('status_index_error_text'); ?></p>
     		<ul class="m-0">
     		    <li><?= Module::t('status_index_error_1'); ?></li>
     		    <li><?= Module::t('status_index_error_2'); ?></li>
