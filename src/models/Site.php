@@ -200,7 +200,7 @@ class Site extends NgRestModel
      */
     public function extraFields()
     {
-        return ['remote', 'safeUrl', 'packages', 'messageLogs'];
+        return ['remote', 'safeUrl', 'packages', 'messageLogs', 'adminBillingProducts'];
     }
     
     /**

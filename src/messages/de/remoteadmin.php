@@ -22,4 +22,9 @@ return [
     'status_index_column_transferexception' => 'Fehler übertragen',
     'status_index_column_onlineadmin' => 'Admins Online',
     'stauts_index_error_text' => 'Wenn die Abfrage zu einer Remote Seite einen Fehler gab könnte folgenden Probleme aufgetreten sein:',
+    
+// 1.1.0
+
+    'message_defaulttext' => 'Guten Tag\n\nWir haben am {{timestamp}} eine technische Aktualisierung Ihrer Website {{domain}} durchgeführt. Sollten Sie trotz unseren Tests Probleme feststellen, bitten wir Sie, uns diese zu melden.\n\nBeste Grüsse',
+    
 ];

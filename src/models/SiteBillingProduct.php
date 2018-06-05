@@ -4,6 +4,7 @@ namespace luya\remoteadmin\models;
 
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use luya\remoteadmin\Module;
 
 /**
  * Site Billing Product.
@@ -38,9 +39,9 @@ class SiteBillingProduct extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'billing_product_id' => Yii::t('app', 'Billing Product ID'),
-            'site_id' => Yii::t('app', 'Site ID'),
+            'id' => Module::t('model_id'),
+            'billing_product_id' => Module::t('model_site_billing_product_billing_product_id'),
+            'site_id' => Module::t('model_site_billing_product_site_id'),
         ];
     }
 
@@ -52,14 +53,6 @@ class SiteBillingProduct extends NgRestModel
         return [
             [['billing_product_id', 'site_id'], 'integer'],
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function genericSearchFields()
-    {
-        return [''];
     }
 
     /**

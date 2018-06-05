@@ -67,4 +67,6 @@ return [
     'model_site_status_2' => 'Development',
     'model_site_status_3' => 'Pre-production',
     'model_site_status_4' => 'End-of-life',
+    'model_site_billing_product_billing_product_id' => 'Product',
+    'model_site_billing_product_site_id' => 'Site',
 ];
