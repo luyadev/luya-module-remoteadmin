@@ -11,6 +11,7 @@ use luya\remoteadmin\Module;
 use luya\helpers\StringHelper;
 use luya\admin\traits\SoftDeleteTrait;
 use luya\admin\ngrest\plugins\CheckboxRelationActiveQuery;
+use luya\TagParser;
 
 /**
  * This is the model class for table "remote_site".
@@ -116,6 +117,14 @@ class Site extends NgRestModel
     public function getBillingProducts()
     {
         return $this->hasMany(BillingProduct::class, ['id' => 'billing_product_id'])->viaTable(SiteBillingProduct::tableName(), ['site_id' => 'id']);
+    }
+
+    public function parseMessageText($text)
+    {
+        return TagParser::convertWithMarkdown(strtr($text, [
+            '{{timestamp}}' => strftime("%c", $this->getRemote()['packages_update_timestamp']),
+            '{{domain}}' => $this->getSafeUrl(),
+        ]));
     }
     
     /**

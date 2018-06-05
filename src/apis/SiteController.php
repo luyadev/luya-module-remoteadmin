@@ -34,10 +34,7 @@ class SiteController extends \luya\admin\ngrest\base\Api
             throw new NotFoundHttpException("Unable to find the given site id.");
         }
         
-        $message = TagParser::convertWithMarkdown(strtr($text, [
-            '{{timestamp}}' => strftime("%c", $model->getRemote()['packages_update_timestamp']),
-            '{{domain}}' => $model->getSafeUrl(),
-        ]));
+        $message = $model->parseMessageText($text);
         
         $mail = Yii::$app->mail->compose('Website status', $message)->addresses($model->getRecipients());
         
