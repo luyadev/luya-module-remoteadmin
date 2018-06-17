@@ -43,7 +43,7 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
 
     $scope.messageTextId = 0;
     
-    $scope.messageText = "<?= $defaultText; ?>";
+    $scope.messageText = `<?= $defaultText; ?>`;
     
     $scope.messageModalState = true;
 

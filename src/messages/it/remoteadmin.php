@@ -28,7 +28,7 @@ return [
 
 // 1.1.0
 
-    'message_defaulttext' => 'Hello\n\nWe made a technical update to your website {{domain}} on {{timestamp}}. Should you experience any problems in spite of our tests, please let us know.\n\nBest regards',
+    'message_defaulttext' => "Hello\n\nWe made a technical update to your website {{domain}} on {{timestamp}}. Should you experience any problems in spite of our tests, please let us know.\n\nBest regards",
     'message_defaulttext_title' => 'System template',
     'message_text_label' => 'Email Message',
     'message_sent_success' => 'The message has been sent to all recipients successfully',
@@ -70,4 +70,5 @@ return [
     'model_site_status_4' => 'End-of-life',
     'model_site_billing_product_billing_product_id' => 'Product',
     'model_site_billing_product_site_id' => 'Site',
+    'message_subject' => 'Website update',
 ];

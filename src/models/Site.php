@@ -95,6 +95,12 @@ class Site extends NgRestModel
         ];
     }
     
+    /**
+     * Get an array of recipients based on the {{$recipients}} variable.
+     * 
+     * @return array
+     * @since 1.1.0
+     */
     public function getRecipients()
     {
         $recipients = str_replace([",", " "], ";", $this->recipient);
@@ -102,6 +108,9 @@ class Site extends NgRestModel
         return StringHelper::explode($recipients, ';', true, true);
     }
     
+    /**
+     * @inheritdoc
+     */
     public function attributeHints()
     {
         return [
@@ -119,6 +128,13 @@ class Site extends NgRestModel
         return $this->hasMany(BillingProduct::class, ['id' => 'billing_product_id'])->viaTable(SiteBillingProduct::tableName(), ['site_id' => 'id']);
     }
 
+    /**
+     * Parse a given text and replace the predefined variables.
+     * 
+     * @param string $text
+     * @return string A markdown and variable parsed text.
+     * @since 1.1.0
+     */
     public function parseMessageText($text)
     {
         return TagParser::convertWithMarkdown(strtr($text, [
@@ -154,13 +170,17 @@ class Site extends NgRestModel
             'status' => ['selectArray', 'data' => [1 => Module::t('model_site_status_1'), 2 => Module::t('model_site_status_2'), 3 => Module::t('model_site_status_3'), 4 => Module::t('model_site_status_4')]],
             'recipient' => 'text',
             'billing_start_timestamp' => 'date',
+            'last_message_timestamp' => 'datetime',
+            'auto_update_message' => 'toggleStatus',
             'auth_is_enabled' => 'toggleStatus',
             'auth_user' => ['text', 'condition' => '{auth_is_enabled}==1'],
             'auth_pass' => ['password', 'condition' => '{auth_is_enabled}==1'],
-            'auto_update_message' => 'toggleStatus',
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function ngRestExtraAttributeTypes()
     {
         return [
@@ -178,8 +198,8 @@ class Site extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['url', 'token', 'status', 'recipient']],
-            [['create', 'update'], ['url', 'token', 'status', 'recipient', 'billing_start_timestamp', 'auth_is_enabled', 'auth_user', 'auth_pass', 'adminBillingProducts', 'auto_update_message']],
+            ['list', ['url', 'token', 'status', 'recipient', 'last_message_timestamp']],
+            [['create', 'update'], ['url', 'token', 'status', 'recipient', 'billing_start_timestamp', 'last_message_timestamp', 'auto_update_message','adminBillingProducts', 'auth_is_enabled', 'auth_user', 'auth_pass', ]],
             ['delete', true],
         ];
     }

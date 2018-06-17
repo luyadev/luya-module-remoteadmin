@@ -57,3 +57,7 @@ add a remote token to the application you want to control:
 > Use [Password Generator](http://passwordsgenerator.net/?length=64&symbols=0&numbers=1&lowercase=1&uppercase=1&similar=1&ambiguous=0&client=1&autoselect=0) to generate a strong token
 
 Now you are able to add this instance to your remote admin with the above added remoteToken.
+
+## Auto message cronjob
+
+When you are setting up the `remoteadmin/auto-message` cronjob, we recommend to run this cronjob every 4 hours and also keep in mind, if you have not made a default template the templates from the message sources will be used, therefore make sure `language` property of the application is configured correctly.

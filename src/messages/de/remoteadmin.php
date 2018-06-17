@@ -27,7 +27,7 @@ return [
     
 // 1.1.0
 
-    'message_defaulttext' => 'Gute Tag\n\nWir haben am {{timestamp}} eine technische Aktualisierung Ihrer Website {{domain}} durchgeführt. Sollten Sie trotz unserer Tests Probleme feststellen, bitten wir Sie, uns diese zu melden.\n\nBeste Grüsse',
+    'message_defaulttext' => "Gute Tag\n\nWir haben am {{timestamp}} eine technische Aktualisierung Ihrer Website {{domain}} durchgeführt. Sollten Sie trotz unserer Tests Probleme feststellen, bitten wir Sie, uns diese zu melden.\n\nBeste Grüsse",
     'message_defaulttext_title' => 'System-Vorlage',
     'message_text_label' => 'E-Mail-Text',
     'message_sent_success' => 'Die E-Mail wurde erfolgreich an alle Empfänger verschickt',
@@ -68,5 +68,6 @@ return [
     'model_site_status_3' => 'Pre-Produktion',
     'model_site_status_4' => 'Abgelaufen',
     'model_site_billing_product_billing_product_id' => 'Produkt',
-    'model_site_billing_product_site_id' => 'Website',   
+    'model_site_billing_product_site_id' => 'Website',
+    'message_subject' => 'Webseite aktualisiert',
 ];

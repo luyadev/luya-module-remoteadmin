@@ -7,6 +7,7 @@ use luya\remoteadmin\models\Site;
 use yii\web\NotFoundHttpException;
 use luya\remoteadmin\models\MessageLog;
 use luya\TagParser;
+use luya\admin\models\Config;
 
 /**
  * Site model API.
@@ -36,7 +37,7 @@ class SiteController extends \luya\admin\ngrest\base\Api
         
         $message = $model->parseMessageText($text);
         
-        $mail = Yii::$app->mail->compose('Website status', $message)->addresses($model->getRecipients());
+        $mail = Yii::$app->mail->compose(Module::t('message_subject'), $message)->addresses($model->getRecipients());
         
         if ($mail->send()) {
             $log = new MessageLog();
