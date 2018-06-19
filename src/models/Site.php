@@ -9,16 +9,25 @@ use luya\traits\CacheableTrait;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\remoteadmin\Module;
 use luya\helpers\StringHelper;
+use luya\admin\traits\SoftDeleteTrait;
+use luya\admin\ngrest\plugins\CheckboxRelationActiveQuery;
+use luya\TagParser;
 
 /**
  * This is the model class for table "remote_site".
  *
- * @property integer $id
+ * @property int $id
  * @property string $token
  * @property string $url
- * @property integer $auth_is_enabled
+ * @property int $auth_is_enabled
  * @property string $auth_user
  * @property string $auth_pass
+ * @property string $recipient
+ * @property int $last_message_timestamp
+ * @property int $is_deleted
+ * @property int $billing_start_timestamp
+ * @property int $status
+ * @property int $auto_update_message
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -26,6 +35,9 @@ use luya\helpers\StringHelper;
 class Site extends NgRestModel
 {
     use CacheableTrait;
+    use SoftDeleteTrait;
+    
+    public $adminBillingProducts = [];
 
     /**
      * @inheritdoc
@@ -54,9 +66,10 @@ class Site extends NgRestModel
     {
         return [
             [['token', 'url'], 'required'],
-            [['url'], 'url'],
-            [['auth_is_enabled'], 'integer'],
+            [['auth_is_enabled', 'last_message_timestamp', 'is_deleted', 'billing_start_timestamp', 'status', 'auto_update_message'], 'integer'],
             [['token', 'url', 'auth_user', 'auth_pass'], 'string', 'max' => 120],
+            [['recipient'], 'string', 'max' => 255],
+            [['adminBillingProducts'], 'safe'],
         ];
     }
     
@@ -66,13 +79,68 @@ class Site extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Module::t('model_site_id'),
+            'id' => Module::t('model_id'),
             'token' => Module::t('model_site_token'),
             'url' => Module::t('model_site_url'),
             'auth_is_enabled' => Module::t('model_site_auth_is_enabled'),
             'auth_user' => Module::t('model_site_auth_user'),
             'auth_pass' => Module::t('model_site_auth_pass'),
+            'recipient' => Module::t('model_site_recipient'),
+            'last_message_timestamp' => Module::t('model_site_last_message_timestamp'),
+            'is_deleted' => Module::t('model_site_is_deleted'),
+            'billing_start_timestamp' => Module::t('model_site_billing_start_timestamp'),
+            'status' => Module::t('model_site_status'),
+            'adminBillingProducts' => Module::t('model_site_adminBillingProducts'),
+            'auto_update_message' => Module::t('model_site_auto_update_message'),
         ];
+    }
+    
+    /**
+     * Get an array of recipients based on the {{$recipients}} variable.
+     * 
+     * @return array
+     * @since 1.1.0
+     */
+    public function getRecipients()
+    {
+        $recipients = str_replace([",", " "], ";", $this->recipient);
+        
+        return StringHelper::explode($recipients, ';', true, true);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributeHints()
+    {
+        return [
+            'recipient' => Module::t('model_site_recipient_hint'),
+            'billing_start_timestamp' => Module::t('model_site_billing_start_timestamp_hint'),
+            'auto_update_message' => Module::t('model_site_auto_update_message_hint'),
+        ];
+    }
+    
+    /**
+     * @return BillingProduct
+     */
+    public function getBillingProducts()
+    {
+        return $this->hasMany(BillingProduct::class, ['id' => 'billing_product_id'])->viaTable(SiteBillingProduct::tableName(), ['site_id' => 'id']);
+    }
+
+    /**
+     * Parse a given text and replace the predefined variables.
+     * 
+     * @param string $text
+     * @return string A markdown and variable parsed text.
+     * @since 1.1.0
+     */
+    public function parseMessageText($text)
+    {
+        return TagParser::convertWithMarkdown(strtr($text, [
+            '{{timestamp}}' => strftime("%c", $this->getRemote()['packages_update_timestamp']),
+            '{{domain}}' => $this->getSafeUrl(),
+        ]));
     }
     
     /**
@@ -99,9 +167,28 @@ class Site extends NgRestModel
         return [
             'token' => ['text', 'encoding' => false],
             'url' => 'text',
+            'status' => ['selectArray', 'data' => [1 => Module::t('model_site_status_1'), 2 => Module::t('model_site_status_2'), 3 => Module::t('model_site_status_3'), 4 => Module::t('model_site_status_4')]],
+            'recipient' => 'text',
+            'billing_start_timestamp' => 'date',
+            'last_message_timestamp' => 'datetime',
+            'auto_update_message' => 'toggleStatus',
             'auth_is_enabled' => 'toggleStatus',
-            'auth_user' => 'text',
-            'auth_pass' => 'password',
+            'auth_user' => ['text', 'condition' => '{auth_is_enabled}==1'],
+            'auth_pass' => ['password', 'condition' => '{auth_is_enabled}==1'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function ngRestExtraAttributeTypes()
+    {
+        return [
+            'adminBillingProducts' => [
+                'class' => CheckboxRelationActiveQuery::class,
+                'query' => $this->getBillingProducts(),
+                'labelField' => ['name'],
+            ]
         ];
     }
     
@@ -111,8 +198,8 @@ class Site extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['url', 'token']],
-            [['create', 'update'], ['url', 'token', 'auth_is_enabled', 'auth_user', 'auth_pass']],
+            ['list', ['url', 'token', 'status', 'recipient', 'last_message_timestamp']],
+            [['create', 'update'], ['url', 'token', 'status', 'recipient', 'billing_start_timestamp', 'last_message_timestamp', 'auto_update_message','adminBillingProducts', 'auth_is_enabled', 'auth_user', 'auth_pass', ]],
             ['delete', true],
         ];
     }
@@ -142,7 +229,16 @@ class Site extends NgRestModel
      */
     public function extraFields()
     {
-        return ['remote', 'safeUrl', 'packages'];
+        return ['remote', 'safeUrl', 'packages', 'messageLogs', 'adminBillingProducts'];
+    }
+    
+    /**
+     * 
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMessageLogs()
+    {
+        return $this->hasMany(MessageLog::class, ['site_id' => 'id']);
     }
     
     /**
@@ -209,7 +305,7 @@ class Site extends NgRestModel
             }
             
             return $data;
-        }, (60*15));
+        }, (60*60*12)); // cache for 12 hours
     }
     
     /**
