@@ -29,6 +29,7 @@ class SiteController extends \luya\admin\ngrest\base\Api
     {
         $siteId = (int) Yii::$app->request->getBodyParam('siteId');
         $text = Yii::$app->request->getBodyParam('text');
+        $subject = Yii::$app->request->getBodyParam('subject');
         
         $model = Site::findOne($siteId);
         
@@ -38,7 +39,7 @@ class SiteController extends \luya\admin\ngrest\base\Api
         
         $message = $model->parseMessageText($text);
         
-        $mail = Yii::$app->mail->compose(Module::t('message_subject'), $message)->addresses($model->getRecipients());
+        $mail = Yii::$app->mail->compose($subject, $message)->addresses($model->getRecipients());
         
         if ($mail->send()) {
             $log = new MessageLog();

@@ -16,8 +16,10 @@ class AutoMessageController extends Command
         
         if ($tpl) {
             $message = $tpl->text;
+            $subject = $tpl->subject;
         } else {
             $message = Module::t('message_defaulttext');
+            $subject = Module::t('message_subject');
         }
         
         // get all sites with recipients
@@ -38,7 +40,7 @@ class AutoMessageController extends Command
                         }
                     }
                     
-                    if (Yii::$app->mail->compose(Module::t('message_subject'), $text)->addresses($addresses)->send()) {
+                    if (Yii::$app->mail->compose($subject, $text)->addresses($addresses)->send()) {
                         $this->outputSuccess("Mail has been sent to: " . implode(",", $addresses));
                         $item->updateAttributes(['last_message_timestamp' => time()]);
                     } else {

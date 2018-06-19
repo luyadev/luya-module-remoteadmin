@@ -50,7 +50,8 @@ return [
     'model_message_log_recipients' => 'Recipients',
     'model_message_log_text' => 'Message text',
     'model_message_template_title' => 'Name',
-    'model_message_template_text' => 'Message text',
+    'model_message_template_text' => 'E-Mail text',
+    'model_message_template_subject' => 'E-Mail Subject',
     'model_message_template_is_default' => 'Default message template',
     'model_message_template_text_hint' => 'The email text which will be sent to the user, Markdown is enabled by default. You can use {{timestamp}} and {{domain}} variables to customize the message.',
     'model_site_recipient' => 'Message recipients',
@@ -70,4 +71,5 @@ return [
     'model_site_billing_product_billing_product_id' => 'Product',
     'model_site_billing_product_site_id' => 'Site',
     'message_subject' => 'Website update',
+    'message_subject_label' => 'E-Mail-Subject',
 ];

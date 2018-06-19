@@ -4,6 +4,7 @@ use luya\admin\helpers\Angular;
 
 
 $defaultText = Module::t('message_defaulttext');
+$defaultSubject = Module::t('message_subject');
 ?>
 <script>
 zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'AdminToastService', function($scope, $http, $q, AdminToastService) {
@@ -44,6 +45,8 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
     $scope.messageTextId = 0;
     
     $scope.messageText = `<?= $defaultText; ?>`;
+
+    $scope.messageSubject = '<?= $defaultSubject; ?>';
     
     $scope.messageModalState = true;
 
@@ -54,8 +57,8 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
         $scope.messageModalState = false;
     };
 
-    $scope.sendMessage = function(text) {
-        $http.post('admin/api-remote-site/send-message', {siteId: $scope.messageModalData.id, text: text}).then(function(response) {
+    $scope.sendMessage = function(text, subject) {
+        $http.post('admin/api-remote-site/send-message', {siteId: $scope.messageModalData.id, text: text, subject: subject}).then(function(response) {
         	AdminToastService.success('<?= Module::t('message_sent_success'); ?>');
             $scope.messageModalState = true;
         }, function(errors) {
@@ -119,7 +122,7 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
 <div ng-controller="SitesStatusController">
     <modal is-modal-hidden="messageModalState" modal-title="<?= Module::t('message_modal_title'); ?>">
         <div ng-if="!messageModalState">
-            <form method="post" ng-submit="sendMessage(messageText)">
+            <form method="post" ng-submit="sendMessage(messageText, messageSubject)">
                 <div ng-repeat="tpl in templates" class="form-side">
                     <input type="radio" class="form-check-input" for="{{tpl.id}}" ng-checked="messageTextId == tpl.id" ng-click="assignMessageText(tpl.text, tpl.id)" ng-model="messageTextId" value="{{tpl.id}}" />
                     <label class="form-check-label" for="{{tpl.id}}" ng-click="assignMessageText(tpl.text, tpl.id)">
@@ -132,6 +135,7 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
                      <?= Module::t('message_defaulttext_title'); ?>
                     </label>                
                 </div>
+                <?= Angular::text('messageSubject', Module::t('message_subject_label')); ?>
                 <?= Angular::textarea('messageText', Module::t('message_text_label')); ?>
                 <p><?= Module::t('message_modal_recipients'); ?></p>
                 <button type="submit" value="Submit" class="btn btn-icon btn-save"><?= Module::t('message_modal_submit_label'); ?></button>

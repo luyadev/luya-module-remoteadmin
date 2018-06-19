@@ -51,6 +51,7 @@ return [
     'model_message_log_text' => 'E-Mail-Text',
     'model_message_template_title' => 'Name',
     'model_message_template_text' => 'E-Mail-Text',
+    'model_message_template_subject' => 'E-Mail-Subject',
     'model_message_template_is_default' => 'Standard E-Mail-Vorlage',
     'model_message_template_text_hint' => 'Der E-Mail-Text, der an die Empfänger verschickt wird. Markdown ist standardmässig aktiv. Du kannst im Text die Platzhalter {{timestamp}} und {{domain}} verwenden.',
     'model_site_recipient' => 'E-Mail-Empfänger',
@@ -70,4 +71,5 @@ return [
     'model_site_billing_product_billing_product_id' => 'Produkt',
     'model_site_billing_product_site_id' => 'Website',
     'message_subject' => 'Webseite aktualisiert',
+    'message_subject_label' => 'E-Mail Betreff',
 ];

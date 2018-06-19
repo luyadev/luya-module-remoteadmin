@@ -23,6 +23,7 @@ class m180530_131121_infos_system_tables extends Migration
         $this->createTable('remote_message_template', [
             'id' => $this->primaryKey(),
             'title' => $this->text()->notNull(),
+            'subject' => $this->text()->notNull(),
             'text' => $this->text()->notNull(),
             'is_default' => $this->boolean()->defaultValue(false),
         ]);

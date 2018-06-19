@@ -14,6 +14,7 @@ use luya\remoteadmin\Module;
  * @property integer $id
  * @property boolean $is_default
  * @property text $title
+ * @property text $subject
  * @property text $text
  */
 class MessageTemplate extends NgRestModel
@@ -42,6 +43,7 @@ class MessageTemplate extends NgRestModel
         return [
             'id' => Module::t('model_id'),
             'title' => Module::t('model_message_template_title'),
+            'subject' => Module::t('model_message_template_subject'),
             'text' => Module::t('model_message_template_text'),
             'is_default' => Module::t('model_message_template_is_default'),
         ];
@@ -60,8 +62,8 @@ class MessageTemplate extends NgRestModel
     public function rules()
     {
         return [
-            [['text', 'title'], 'required'],
-            [['text', 'title'], 'string'],
+            [['text', 'title', 'subject'], 'required'],
+            [['text', 'title', 'subject'], 'string'],
             [['is_default'], 'integer']
         ];
     }
@@ -81,6 +83,7 @@ class MessageTemplate extends NgRestModel
     {
         return [
             'title' => 'text',
+            'subject' => 'text',
             'text' => 'textarea',
             'is_default' => 'toggleStatus',
         ];
@@ -92,7 +95,7 @@ class MessageTemplate extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            [['list', 'create', 'update'], ['title', 'text', 'is_default']],
+            [['list', 'create', 'update'], ['title', 'subject', 'text', 'is_default']],
             ['delete', false],
         ];
     }
