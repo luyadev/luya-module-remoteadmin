@@ -305,7 +305,7 @@ class Site extends NgRestModel
             }
             
             return $data;
-        }, (60*60*12)); // cache for 12 hours
+        }, (60*60*2)); // cache for 2 hours
     }
     
     /**
