@@ -58,6 +58,6 @@ add a remote token to the application you want to control:
 
 Now you are able to add this instance to your remote admin with the above added remoteToken.
 
-## Auto message cronjob
+## Auto message cronjob
 
-When you are setting up the `remoteadmin/auto-message` cronjob, we recommend to run this cronjob every 4 hours and also keep in mind, if you have not made a default template the templates from the message sources will be used, therefore make sure `language` property of the application is configured correctly.
+When you are setting up the `remoteadmin/auto-message` cronjob, we recommend to run this cronjob every 4 hours and also keep in mind, if you have not made a default template the templates from the message sources will be used, therefore make sure `language` property of the application is configured correctly or generate your own default message template.
