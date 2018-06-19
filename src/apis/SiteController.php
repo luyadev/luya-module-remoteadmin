@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use luya\remoteadmin\models\MessageLog;
 use luya\TagParser;
 use luya\admin\models\Config;
+use luya\remoteadmin\Module;
 
 /**
  * Site model API.
