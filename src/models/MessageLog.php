@@ -6,6 +6,7 @@ use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\ngrest\plugins\Html;
 use luya\remoteadmin\Module;
+use luya\admin\aws\DetailViewActiveWindow;
 
 /**
  * Message Log.
@@ -83,6 +84,39 @@ class MessageLog extends NgRestModel
             'text' => ['class' => Html::class, 'nl2br' => false],
         ];
     }
+    
+    public function ngRestExtraAttributeTypes()
+    {
+        return [
+            'site.url' => 'text',
+        ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function ngRestActiveWindows()
+    {
+        return [
+            [
+                'class' => DetailViewActiveWindow::class,
+                'attributes' => [
+                    'site.url',
+                    'timestamp:datetime',
+                    'recipients',
+                    'text:raw',
+                ]
+            ],
+        ];
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSite()
+    {
+        return $this->hasOne(Site::class, ['id' => 'site_id']);
+    }
 
     /**
      * @inheritdoc
@@ -90,7 +124,7 @@ class MessageLog extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            [['list'], ['site_id', 'timestamp', 'recipients', 'text']],
+            [['list'], ['site.url', 'timestamp', 'recipients']],
             ['delete', false],
         ];
     }

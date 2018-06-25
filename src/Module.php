@@ -28,10 +28,10 @@ final class Module extends \luya\admin\base\Module implements CoreModuleInterfac
                 ->itemRoute('Status', 'remoteadmin/status/index', 'update')
                 ->itemApi('Pages', 'remoteadmin/site/index', 'cloud', 'api-remote-site')
             ->group('Message')
-                ->itemApi('Templates', 'remoteadmin/message-template/index', 'label', 'api-remote-messagetemplate')
-                ->itemApi('History', 'remoteadmin/message-log/index', 'label', 'api-remote-messagelog')
+                ->itemApi('Templates', 'remoteadmin/message-template/index', 'drafts', 'api-remote-messagetemplate')
+                ->itemApi('History', 'remoteadmin/message-log/index', 'history', 'api-remote-messagelog')
             ->group('Billing')
-                ->itemApi('Products', 'remoteadmin/billing-product/index', 'label', 'api-remote-billingproduct')
+                ->itemApi('Products', 'remoteadmin/billing-product/index', 'monetization_on', 'api-remote-billingproduct')
                 ->itemApi('Site Billing Product', 'remoteadmin/site-billing-product/index', 'label', 'api-remote-sitebillingproduct', ['hiddenInMenu' => true]);
                 
                 

@@ -7,6 +7,7 @@ use luya\remoteadmin\Module;
 use luya\remoteadmin\models\Site;
 use luya\remoteadmin\models\MessageTemplate;
 use luya\console\Command;
+use luya\remoteadmin\models\MessageLog;
 
 class AutoMessageController extends Command
 {
@@ -42,6 +43,15 @@ class AutoMessageController extends Command
                     
                     if (Yii::$app->mail->compose($subject, $text)->addresses($addresses)->send()) {
                         $this->outputSuccess("Mail has been sent to: " . implode(",", $addresses));
+                        
+                        // add log entry for message.
+                        $log = new MessageLog();
+                        $log->timestamp = time();
+                        $log->recipients = implode("; ", $addresses);
+                        $log->text = $text;
+                        $log->site_id = $item->id;
+                        $log->save(false);
+                        
                         $item->updateAttributes(['last_message_timestamp' => time()]);
                     } else {
                         $this->outputError("Error while sending email: " . Yii::$app->mail->getError());
