@@ -2,12 +2,12 @@
 	"name" : "luyadev/luya-module-remoteadmin",
 	"description" : "Collect remote informations from other LUYA instances.",
 	"type" : "luya-module",
-	"keywords" : ["php", "luya", "module", "remote", "remoteadmin", "yii2", "yii", "luya-module"],
+	"keywords" : ["php", "luya", "module", "remote", "remoteadmin", "yii2", "yii", "luya-module", "agency", "cockput"],
 	"license": "MIT",
-	"homepage" : "http://luya.io",
+	"homepage" : "https://luya.io",
 	"authors" : [
 		{
-			"name" : "Basil",
+			"name" : "Basil Suter",
 			"email" : "git@nadar.io",
 			"homepage" : "https://github.com/nadar"
 		}
@@ -19,10 +19,5 @@
 		"psr-4" : {
 			"luya\\remoteadmin\\" : "src/"
 		}
-	},
-	"extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    }
+	}
 }
