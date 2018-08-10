@@ -2,7 +2,7 @@
 	"name" : "luyadev/luya-module-remoteadmin",
 	"description" : "Collect remote informations from other LUYA instances.",
 	"type" : "luya-module",
-	"keywords" : ["php", "luya", "module", "remote", "remoteadmin", "yii2", "yii", "luya-module", "agency", "cockput"],
+	"keywords" : ["php", "luya", "module", "remote", "remoteadmin", "yii2", "yii", "luya-module", "agency", "cockpit"],
 	"license": "MIT",
 	"homepage" : "https://luya.io",
 	"authors" : [
