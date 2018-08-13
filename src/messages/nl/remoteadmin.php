@@ -1,6 +1,6 @@
-<? Php
+<?php
 
-terugkeer [
+return [
 
 // 1.0.0
 
@@ -61,7 +61,7 @@ terugkeer [
     'model_site_status' => 'Status',
     'model_site_adminBillingProducts' => 'Productabonnementen',
     'model_site_auto_update_message' => 'Automatisch verzenden van berichten',
-    'model_site_recipient_hint' => 'Met een door komma's gescheiden lijst van e-mailadressen kunt u het bericht naar meerdere ontvangers verzenden.',
+    'model_site_recipient_hint' => 'Met een door komma\'s gescheiden lijst van e-mailadressen kunt u het bericht naar meerdere ontvangers verzenden.',
     'model_site_billing_start_timestamp_hint' => 'Als u het factuuroverzicht wilt gebruiken, moet u de tijdstempel instellen wanneer de factureringscyclus begint.',
     'model_site_auto_update_message_hint' => 'Als dit is ingeschakeld en het cronjob voor automatisch bericht is ingesteld, verzendt de externe beheerder het standaardbericht of het aangepaste bericht naar de geconfigureerde lijst met geadresseerden wanneer de tijdstempel van de componist voor de website is gewijzigd.',
     'model_site_status_1' => 'Productie',
