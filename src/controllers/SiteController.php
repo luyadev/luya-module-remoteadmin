@@ -10,7 +10,5 @@ namespace luya\remoteadmin\controllers;
  */
 class SiteController extends \luya\admin\ngrest\base\Controller
 {
-    public $pagination = false;
-    
     public $modelClass = 'luya\remoteadmin\models\Site';
 }

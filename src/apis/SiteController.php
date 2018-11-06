@@ -18,6 +18,8 @@ use luya\remoteadmin\Module;
  */
 class SiteController extends \luya\admin\ngrest\base\Api
 {
+    public $pagination = false;
+    
     public $modelClass = 'luya\remoteadmin\models\Site';
     
     /**
