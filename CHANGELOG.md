@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md). In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.1.1 (in progress)
+
++ [#8](https://github.com/luyadev/luya-module-remoteadmin/issues/8) Disable pagination for sites output.
+
 ## 1.1.0 (18. July 2018)
 
 + [#4](https://github.com/luyadev/luya-module-remoteadmin/issues/4) Add new customer information system, add more infos to remote site.
