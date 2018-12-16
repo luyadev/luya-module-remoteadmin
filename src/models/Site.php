@@ -373,10 +373,10 @@ class Site extends NgRestModel
     		 
     		if (!isset($json['package']['versions'])) {
     			return false;
-    		}
+            }
     		
     		foreach ($json['package']['versions'] as $version => $package) {
-    			if ($version == 'dev-master' || !is_numeric(substr($version, 0, 1))) {
+    			if (StringHelper::contains(['dev-master', 'dev'], $version) || !is_numeric(substr($version, 0, 1))) {
     				continue;
     			}
     			 
