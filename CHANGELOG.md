@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.1.2 (in progress)
 
-+ Fixed problem with extra branch (1.2.x-dev) was handled as valid constraint.
++ [#9](https://github.com/luyadev/luya-module-remoteadmin/issues/9) Fixed problem with extra branch (1.2.x-dev) was handled as valid constraint.
 
 ## 1.1.1 (6. November 2018)
 
