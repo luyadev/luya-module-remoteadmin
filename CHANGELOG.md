@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md). In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.1.2 (in progress)
+## 1.1.2 (4. January 2019)
 
 + [#9](https://github.com/luyadev/luya-module-remoteadmin/issues/9) Fixed problem with extra branch (1.2.x-dev) was handled as valid constraint.
 
