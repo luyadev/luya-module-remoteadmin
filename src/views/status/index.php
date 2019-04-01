@@ -141,7 +141,7 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
                 <button type="submit" value="Submit" class="btn btn-icon btn-save"><?= Module::t('message_modal_submit_label'); ?></button>
             </form>
             
-            <div class="list-group mt-3">
+            <div class="list-group">
               <div ng-repeat="log in messageModalData.messageLogs" class="list-group-item list-group-item-action flex-column align-items-start pb-0">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{ log.timestamp * 1000 | date:"short" }}</h5>
@@ -179,7 +179,7 @@ zaa.bootstrap.register('SitesStatusController', ['$scope', '$http', '$q', 'Admin
     		<h3><?= Module::t('status_index_heading'); ?></h3>
             <p><?= Module::t('status_index_intro', ['version' => $currentVersion['version'], 'date' => Yii::$app->formatter->asDate(strtotime($currentVersion['time']))]); ?></p>
     		<input type="text" ng-model="searchQuery" class="form-control" />
-    		<div class="table-responsive-wrapper">
+    		<div class="table-responsive-wrapper mt-3">
 	            <table class="table table-striped">
 	    			<thead>
 		    			<tr>

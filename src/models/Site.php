@@ -66,7 +66,7 @@ class Site extends NgRestModel
     {
         return [
             [['token', 'url'], 'required'],
-            [['auth_is_enabled', 'last_message_timestamp', 'is_deleted', 'billing_start_timestamp', 'status', 'auto_update_message'], 'integer'],
+            [['auth_is_enabled', 'last_message_timestamp', 'is_deleted', 'billing_start_timestamp', 'status', 'auto_update_message', 'group_id'], 'integer'],
             [['token', 'url', 'auth_user', 'auth_pass'], 'string', 'max' => 120],
             [['recipient'], 'string', 'max' => 255],
             [['adminBillingProducts'], 'safe'],
@@ -92,6 +92,7 @@ class Site extends NgRestModel
             'status' => Module::t('model_site_status'),
             'adminBillingProducts' => Module::t('model_site_adminBillingProducts'),
             'auto_update_message' => Module::t('model_site_auto_update_message'),
+            'group_id' => 'Group',
         ];
     }
     
@@ -175,6 +176,7 @@ class Site extends NgRestModel
             'auth_is_enabled' => 'toggleStatus',
             'auth_user' => ['text', 'condition' => '{auth_is_enabled}==1'],
             'auth_pass' => ['password', 'condition' => '{auth_is_enabled}==1'],
+            'group_id' => ['selectModel', 'modelClass' => SiteGroup::class, 'labelField' => ['title']],
         ];
     }
 
@@ -198,12 +200,30 @@ class Site extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['url', 'token', 'status', 'recipient', 'last_message_timestamp']],
-            [['create', 'update'], ['url', 'token', 'status', 'recipient', 'billing_start_timestamp', 'last_message_timestamp', 'auto_update_message','adminBillingProducts', 'auth_is_enabled', 'auth_user', 'auth_pass', ]],
+            ['list', ['url', 'group_id', 'status', 'last_message_timestamp', 'auto_update_message']],
+            [['create', 'update'], ['group_id', 'url', 'token', 'status', 'recipient', 'billing_start_timestamp', 'last_message_timestamp', 'auto_update_message','adminBillingProducts', 'auth_is_enabled', 'auth_user', 'auth_pass', ]],
             ['delete', true],
         ];
     }
+
+    /**
+     * @since 2.0.0
+     */
+    public function ngRestGroupByField()
+    {
+        return 'group_id';
+    }
     
+    /**
+     * Get group relation
+     * 
+     * @since 2.0.0
+     */
+    public function getGroup()
+    {
+        return $this->hasOne(SiteGroup::class, ['id' => 'group_id']);
+    }
+
     /**
      * Ensure the input URL.
      *

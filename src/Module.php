@@ -18,7 +18,8 @@ final class Module extends \luya\admin\base\Module implements CoreModuleInterfac
         'api-remote-messagetemplate' => 'luya\remoteadmin\apis\MessageTemplateController',
         'api-remote-billingproduct' => 'luya\remoteadmin\apis\BillingProductController',
         'api-remote-sitebillingproduct' => 'luya\remoteadmin\apis\SiteBillingProductController',
-        
+        'api-remote-sitegroup' => 'luya\remoteadmin\apis\SiteGroupController',
+
     ];
     
     public function getMenu()
@@ -27,6 +28,7 @@ final class Module extends \luya\admin\base\Module implements CoreModuleInterfac
             ->group('Daten')
                 ->itemRoute('Status', 'remoteadmin/status/index', 'update')
                 ->itemApi('Pages', 'remoteadmin/site/index', 'cloud', 'api-remote-site')
+                ->itemApi('Groups', 'remoteadmin/site-group/index', 'label', 'api-remote-sitegroup')
             ->group('Message')
                 ->itemApi('Templates', 'remoteadmin/message-template/index', 'drafts', 'api-remote-messagetemplate')
                 ->itemApi('History', 'remoteadmin/message-log/index', 'history', 'api-remote-messagelog')
