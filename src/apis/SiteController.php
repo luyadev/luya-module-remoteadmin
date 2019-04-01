@@ -21,6 +21,11 @@ class SiteController extends \luya\admin\ngrest\base\Api
     public $pagination = false;
     
     public $modelClass = 'luya\remoteadmin\models\Site';
+
+    public function prepareIndexQuery()
+    {
+        return parent::prepareIndexQuery()->andWhere(['!=', 'status', 4]);
+    }
     
     /**
      * Send a message from post to a given site id from post.
