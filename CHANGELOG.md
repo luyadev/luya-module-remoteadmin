@@ -5,6 +5,8 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 2.0.0 (in progress)
 
+> This release contains new migrations and requires to run the migrate command after updating. Check the [UPGRADE](UPGRADE.md) document to read more about breaking changes.
+
 + [#10](https://github.com/luyadev/luya-module-remoteadmin/issues/10) Added new group table. A site can now have a group.
 
 ## 1.1.2 (4. January 2019)
