@@ -269,17 +269,27 @@ class Site extends NgRestModel
     public function getPackages()
     {
     	$pkgs = [];
-    	foreach ($this->getRemote()['packages'] as $pkg) {
-    		$name = $pkg['package']['name'];
-    		$remote = $this->getPackageVersion($name);
-    		$version = $remote['version'] ? $remote['version'] : null;
-    		$pkgs[$name] = [
-    			'name' => $name,
-    			'installed' => $pkg['package']['version'],
-    			'latest' => $version,
-    			'released' => $remote['time'] ? $remote['time'] : null,
-    			'versionize' => $this->versionize($pkg['package']['version'], $version),
-    		];
+    	foreach ($this->getRemote()['packages'] as $pkgName => $pkg) {
+            if (!isset($pkg['package'])) {
+                $pkgs[$pkgName] = [
+                    'name' => $pkgName,
+                    'installed' => 'Unknown',
+                    'latest' => 'Unknown',
+                    'released' => null,
+                    'versionize' => 'unknown',
+                ];
+            } else {
+                $name = $pkg['package']['name'];
+                $remote = $this->getPackageVersion($name);
+                $version = $remote['version'] ? $remote['version'] : null;
+                $pkgs[$name] = [
+                    'name' => $name,
+                    'installed' => $pkg['package']['version'],
+                    'latest' => $version,
+                    'released' => $remote['time'] ? $remote['time'] : null,
+                    'versionize' => $this->versionize($pkg['package']['version'], $version),
+                ];
+            }
     	}
     	
     	return $pkgs;
@@ -387,7 +397,12 @@ class Site extends NgRestModel
     {
     	return $this->getOrSetHasCache([__CLASS__, 'packagist', 'package', $package], function() use ($package) {
     		$curl = new Curl();
-    		$curl->get('https://packagist.org/packages/'.$package.'.json');
+            $curl->get('https://packagist.org/packages/'.$package.'.json');
+            
+            if (!$curl->isSuccess()) {
+                return false;
+            }
+
     		$json = Json::decode($curl->response);
     		$curl->close();
     		 

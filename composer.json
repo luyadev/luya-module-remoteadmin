@@ -19,5 +19,8 @@
 		"psr-4" : {
 			"luya\\remoteadmin\\" : "src/"
 		}
+	},
+	"require-dev": {
+		"luyadev/luya-testsuite": "^1.0"
 	}
 }
