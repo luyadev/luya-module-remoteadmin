@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 2.0.1
+## 2.0.1 (13. January 2020)
 
 + [#11](https://github.com/luyadev/luya-module-remoteadmin/issues/11) Catch error when request failed or package data is missing.
 
