@@ -21,6 +21,17 @@
 		}
 	},
 	"require-dev": {
-		"luyadev/luya-testsuite": "^1.0"
-	}
+		"luyadev/luya-testsuite": "^3.0"
+	},
+	"config": {
+        "fxp-asset": {
+            "enabled": false
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }
