@@ -37,6 +37,7 @@ composer require luyadev/luya-module-remoteadmin:^1.1
 
 ```php
 'modules' => [
+    //...
     'remoteadmin' => [
         'class' => 'luya\remoteadmin\Module'
     ],
