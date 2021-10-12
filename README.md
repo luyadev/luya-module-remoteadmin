@@ -36,9 +36,12 @@ composer require luyadev/luya-module-remoteadmin:^1.1
 ## Configuration
 
 ```php
-'remoteadmin' => [
-    'class' => 'luya\remoteadmin\Module'
-],
+'modules' => [
+    //...
+    'remoteadmin' => [
+        'class' => 'luya\remoteadmin\Module'
+    ],
+]    
 ```
 
 > Remoteadmin requires the LUYA Admin module
