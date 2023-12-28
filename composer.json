@@ -1,37 +1,48 @@
 {
-	"name" : "luyadev/luya-module-remoteadmin",
-	"description" : "Collect remote informations from other LUYA instances.",
-	"type" : "luya-module",
-	"keywords" : ["php", "luya", "module", "remote", "remoteadmin", "yii2", "yii", "luya-module", "agency", "cockpit"],
+	"name": "luyadev/luya-module-remoteadmin",
+	"description": "Collect remote informations from other LUYA instances.",
+	"type": "luya-module",
+	"keywords": [
+		"php",
+		"luya",
+		"module",
+		"remote",
+		"remoteadmin",
+		"yii2",
+		"yii",
+		"luya-module",
+		"agency",
+		"cockpit"
+	],
 	"license": "MIT",
-	"homepage" : "https://luya.io",
-	"authors" : [
+	"homepage": "https://luya.io",
+	"authors": [
 		{
-			"name" : "Basil Suter",
-			"email" : "git@nadar.io",
-			"homepage" : "https://github.com/nadar"
+			"name": "Basil Suter",
+			"email": "git@nadar.io",
+			"homepage": "https://github.com/nadar"
 		}
 	],
-	"support" : {
-		"issues" : "https://github.com/luyadev/luya/issues"
+	"support": {
+		"issues": "https://github.com/luyadev/luya/issues"
 	},
-	"autoload" : {
-		"psr-4" : {
-			"luya\\remoteadmin\\" : "src/"
+	"autoload": {
+		"psr-4": {
+			"luya\\remoteadmin\\": "src/"
 		}
 	},
 	"require-dev": {
 		"luyadev/luya-testsuite": "^3.0"
 	},
 	"config": {
-        "fxp-asset": {
-            "enabled": false
-        }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+		"fxp-asset": {
+			"enabled": false
+		}
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://asset-packagist.org"
+		}
+	]
 }
