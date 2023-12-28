@@ -281,12 +281,20 @@ class Site extends NgRestModel
             } else {
                 $name = $pkg['package']['name'];
                 $remote = $this->getPackageVersion($name);
-                $version = $remote['version'] ? $remote['version'] : null;
+
+                if ($remote) {
+                    $version = $remote['version'] ?? null;
+                    $time = $remote['time'] ?? null;
+                } else {
+                    $version = null;
+                    $time = null;
+                }
+                
                 $pkgs[$name] = [
                     'name' => $name,
                     'installed' => $pkg['package']['version'],
                     'latest' => $version,
-                    'released' => $remote['time'] ? $remote['time'] : null,
+                    'released' => $time,
                     'versionize' => $this->versionize($pkg['package']['version'], $version),
                 ];
             }
