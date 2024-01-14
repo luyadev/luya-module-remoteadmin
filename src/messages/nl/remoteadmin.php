@@ -13,7 +13,7 @@ return [
     'model_site_off' => 'Uit',
     'model_site_on' => 'Aan',
     'status_index_heading' => 'Overzicht van externe sites',
-    'status_index_intro' => 'Huidige LUYA-versie is <a href="https://packagist.org/packages/luyadev/luya-core" target="_blank"> <strong> {versie} </strong> </a>, uitgebracht op {date}. ',
+    'status_index_intro' => 'Huidige LUYA-versie is <a href="https://packagist.org/packages/luyadev/luya-core" target="_blank"><strong>{version}</strong></a>, uitgebracht op {date}. ',
     'status_index_caching_info' => 'De externe gegevens worden in de cache opgeslagen voor <strong> 15 minuten </strong>. U kunt de cache-reload-knop gebruiken om de paginacache volledig leeg te maken. ',
     'status_index_time_info' => '* Tijd: Retourneert de totale verstreken tijd sinds het begin van het verzoek in de externe toepassing. Het is de snelheid van de toepassing, niet de tijd die verstreken is om het verzoek op afstand te maken. ',
     'status_index_error_text' => 'Als het verzoek naar een externe website een fout retourneert, kunnen de volgende problemen het hebben veroorzaakt:',
